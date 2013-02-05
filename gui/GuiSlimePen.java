@@ -49,7 +49,7 @@ public class GuiSlimePen extends GuiContainer implements ICrafting {
 			int var3) {
 		GL11.glColor4f(1.0f,  1.0f,  1.0f, 1.0f);
 		
-        int background = this.mc.renderEngine.getTexture("/gui/container.png");
+        int background = this.mc.renderEngine.getTexture("/squishyFriends/slimePen.png");
         this.mc.renderEngine.bindTexture(background);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
