@@ -1,12 +1,14 @@
 package squishyFriends.block;
 
-import squishyFriends.entity.TileEntitySlimePen;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import squishyFriends.SquishyFriends;
+import squishyFriends.entity.TileEntitySlimePen;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -34,6 +36,19 @@ public class BlockSlimePen extends BlockContainer {
 		TileEntitySlimePen penEntity = new TileEntitySlimePen();
 		
 		return penEntity;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float f, float g, float t) {
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		
+		if (tileEntity == null || player.isSneaking()) {
+			return false;
+		}
+		
+		player.openGui(SquishyFriends.instance, 0, world, x, y, z);
+		
+		return true;
 	}
 	
     @SideOnly(Side.CLIENT)

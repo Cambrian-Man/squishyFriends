@@ -7,7 +7,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import squishyFriends.SlimeData;
 import squishyFriends.SquishyFriends;
 import squishyFriends.entity.TileEntitySlimePen;
@@ -17,7 +16,8 @@ public class ContainerSlimePen extends Container implements ICrafting {
 	
 	private SlimeData slimeData;
 	
-	public ContainerSlimePen(TileEntitySlimePen tileEntity) {
+	public ContainerSlimePen(TileEntitySlimePen tileEntity, IInventory  playerInventory) {
+		super();
 		this.tileEntity = tileEntity;
 		this.addSlotToContainer(new SlotSlimeCore(tileEntity, 0, 76, 27));
 	}
