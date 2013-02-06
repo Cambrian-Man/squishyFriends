@@ -18,12 +18,13 @@ public class GuiSlimePen extends GuiContainer implements ICrafting {
 
 	public GuiSlimePen(TileEntitySlimePen tileEntity, IInventory  playerInventory) {
 		super(new ContainerSlimePen(tileEntity, playerInventory));
+		this.ySize = 222;
 	}
 	
 	@Override
 	protected void  drawGuiContainerForegroundLayer(int par1, int par2) {
-		fontRenderer.drawString("Slime Pen", 6, 6, 0xffffff);
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 6, ySize - 96 + 2, 0xffffff);
+		fontRenderer.drawString("Slime Pen", 6, 6, 4210752);
+		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 6, ySize - 96 + 2, 4210752);
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntitySlimePen extends TileEntity implements IInventory {
 	private ItemStack core;
-	private ItemStack whistle;
 	private ItemStack[] trainingItems;
 	private ItemStack appearanceItem;
 
@@ -17,6 +16,10 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 		trainingItems = new ItemStack[5];
 		
 		
+	}
+	
+	public ItemStack getCore() {
+		return core;
 	}
 
 	@Override
@@ -27,11 +30,9 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		switch (slot) {
-		case 0:
+		case 5:
 			return core;
 		case 6:
-			return whistle;
-		case 7:
 			return appearanceItem;
 		default:
 			return trainingItems[slot];
@@ -72,13 +73,10 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
 		switch (slot) {
-		case 0:
+		case 5:
 			core = stack;
 			break;
 		case 6:
-			whistle = stack;
-			break;
-		case 7:
 			appearanceItem = stack;
 			break;
 		default:
@@ -119,7 +117,6 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 		super.readFromNBT(tag);
 		
 		core = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("core"));
-		whistle = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("whistle"));
 		appearanceItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("appearanceItem"));
 		
 		NBTTagList items = tag.getTagList("items");
@@ -134,10 +131,6 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 		
 		if (core != null) {
 			tag.setCompoundTag("core", core.writeToNBT(new NBTTagCompound()));
-		}
-		
-		if (whistle != null) {
-			tag.setCompoundTag("whistle", whistle.writeToNBT(new NBTTagCompound()));
 		}
 		
 		if (appearanceItem != null) {

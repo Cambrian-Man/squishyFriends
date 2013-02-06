@@ -20,25 +20,35 @@ public class ContainerSlimePen extends Container implements ICrafting {
 	public ContainerSlimePen(TileEntitySlimePen tileEntity, IInventory  playerInventory) {
 		super();
 		this.tileEntity = tileEntity;
-		this.addSlotToContainer(new SlotSlimeCore(tileEntity, 0, 7, 47));
+		this.addSlotToContainer(new SlotSlimeCore(tileEntity, 5, 8, 25));
 		
 		for (int i = 0; i < 5; i++) {
-			this.addSlotToContainer(new Slot(tileEntity, i + 1, 43, 24 + (i * 18)));
+			this.addSlotToContainer(new SlotTrainingItems(tileEntity, i, 44, 25 + (i * 18)));
 		}
 		
-		this.addSlotToContainer(new Slot(tileEntity, 6, 7, 96));
-		this.addSlotToContainer(new Slot(tileEntity, 7, 149, 24));
+		this.addSlotToContainer(new Slot(tileEntity, 6, 8, 97));
 		
 		bindPlayerInventory(playerInventory);
 	}
 	
 	private void bindPlayerInventory(IInventory playerInventory) {
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 9; j++){
-				this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 9 + j * 18, 64 + i * 16));
-			}
-		}
+        int var3;
+
+        for (var3 = 0; var3 < 3; ++var3)
+        {
+            for (int var4 = 0; var4 < 9; ++var4)
+            {
+                this.addSlotToContainer(new Slot(playerInventory, var4 + var3 * 9 + 9, 8 + var4 * 18, 140 + var3 * 18));
+            }
+        }
+
+        for (var3 = 0; var3 < 9; ++var3)
+        {
+            this.addSlotToContainer(new Slot(playerInventory, var3, 8 + var3 * 18, 198));
+        }
+		
 	}
+
 
 	@Override
 	public void sendContainerAndContentsToPlayer(Container var1, List var2) {
