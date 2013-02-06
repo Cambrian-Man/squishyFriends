@@ -8,11 +8,11 @@ import squishyFriends.entity.TileEntitySlimePen;
 public class SlotTrainingItems extends Slot {
 	private TileEntitySlimePen inventory;
 
-	public SlotTrainingItems(IInventory par1iInventory, int par2, int par3,
+	public SlotTrainingItems(IInventory inventory, int par2, int par3,
 			int par4) {
-		super(par1iInventory, par2, par3, par4);
+		super(inventory, par2, par3, par4);
 		
-		inventory = (TileEntitySlimePen) par1iInventory;
+		this.inventory = (TileEntitySlimePen) inventory;
 	}
 	
 	@Override

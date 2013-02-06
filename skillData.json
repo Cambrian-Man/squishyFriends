@@ -1,0 +1,52 @@
+{
+	"skills" : {
+		"mobility" : {
+			"items" : [
+				{
+					"name" : "feather",
+					"modifier" : 0.5
+				},
+				{
+					"name" : "leather boots",
+					"modifier" : 1.0
+				},
+				{
+					"name" : "iron boots",
+					"modifier" : 1.5
+				},
+				{
+					"name" : "diamond boots",
+					"modifier" : 3.0
+				}
+			]
+		},
+		"resilience" : {
+			"items" : [
+				{
+					"name" : "cobblestone",
+					"modifier" : 0.1
+				},
+				{
+					"name" : "stone",
+					"modifier" : 0.5
+				},
+				{
+					"name" : "iron ingot",
+					"modifier" : 1
+				},
+				{
+					"name" : "iron armor",
+					"modifier" : 1.2
+				},
+				{
+					"name" : "obsidian",
+					"modifier" : 2.0
+				},
+				{
+					"name" : "diamond armor",
+					"modifier" : 3.0
+				}
+			]
+		}
+	}
+}

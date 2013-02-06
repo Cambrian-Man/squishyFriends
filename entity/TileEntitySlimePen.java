@@ -6,16 +6,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import squishyFriends.SlimeData;
+import squishyFriends.SquishyFriends;
+import cpw.mods.fml.common.FMLLog;
 
 public class TileEntitySlimePen extends TileEntity implements IInventory {
 	private ItemStack core;
 	private ItemStack[] trainingItems;
 	private ItemStack appearanceItem;
+	
+	private SlimeData data;
+	
+	private static final int coreSlot = 5;
+	private static final int appearanceSlot = 6;
 
 	public TileEntitySlimePen() {
 		trainingItems = new ItemStack[5];
-		
-		
 	}
 	
 	public ItemStack getCore() {
@@ -24,15 +30,15 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 
 	@Override
 	public int getSizeInventory() {
-		return 8;
+		return 7;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		switch (slot) {
-		case 5:
+		case coreSlot:
 			return core;
-		case 6:
+		case appearanceSlot:
 			return appearanceItem;
 		default:
 			return trainingItems[slot];
@@ -43,8 +49,17 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 	public ItemStack decrStackSize(int slot, int amount) {
 		ItemStack stack = getStackInSlot(slot);
 		
-		
-		if (stack != null) {
+		// When a core is removed, pull the items out along with it.
+		if (slot == coreSlot && stack.getItem() == SquishyFriends.slimeCore) {
+			transferItemsToCore();
+			
+			for (int i = 0; i < trainingItems.length; i++) {
+				setInventorySlotContents(i, null);
+			}
+			
+			setInventorySlotContents(coreSlot, null);
+		}
+		else if (stack != null) {
 			if (stack.stackSize <= amount) {
 				setInventorySlotContents(slot, null);
 			}
@@ -58,6 +73,31 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 		}
 		
 		return stack;
+	}
+	
+	private void transferItemsToCore() {
+		NBTTagList items = new NBTTagList();
+		for (int i = 0; i < trainingItems.length; i++) {
+			if (trainingItems[i] != null) {
+				NBTTagCompound item = new NBTTagCompound();
+				trainingItems[i].writeToNBT(item);
+				trainingItems[i] = null;
+				item.setByte("slot", (byte) i);
+			}
+		}
+		
+		core.getTagCompound().setTag("items", items);
+	}
+	
+	private void loadItemsFromCore() {
+		NBTTagList items = core.getTagCompound().getTagList("items");
+		
+		for (int i = 0; i < items.tagCount(); i++) {
+			NBTTagCompound itemTag = (NBTTagCompound) items.tagAt(i);
+			int slot = (int) itemTag.getByte("slot");
+			trainingItems[slot] = ItemStack.loadItemStackFromNBT(itemTag);
+			setInventorySlotContents(slot, trainingItems[slot]);
+		}
 	}
 
 	@Override
@@ -73,10 +113,17 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
 		switch (slot) {
-		case 5:
-			core = stack;
+		case coreSlot:
+			if (stack != null) {
+				core = stack;
+				data = new SlimeData(stack.getTagCompound());
+				loadItemsFromCore();
+			}
+			else {
+				core = null;
+			}
 			break;
-		case 6:
+		case appearanceSlot:
 			appearanceItem = stack;
 			break;
 		default:
@@ -102,7 +149,6 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 
 	@Override
 	public void openChest() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -117,11 +163,19 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 		super.readFromNBT(tag);
 		
 		core = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("core"));
+		
+		if (core != null) {
+			data = new SlimeData(core.getTagCompound());
+		}
+		
 		appearanceItem = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("appearanceItem"));
 		
 		NBTTagList items = tag.getTagList("items");
+		
 		for (int i = 0; i < items.tagCount(); i++) {
-			trainingItems[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound) items.tagAt(i));
+			NBTTagCompound itemTag = (NBTTagCompound) items.tagAt(i);
+			int slot = (int) itemTag.getByte("slot");
+			trainingItems[slot] = ItemStack.loadItemStackFromNBT(itemTag);
 		}
 	}
 	
@@ -142,11 +196,11 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 			if (trainingItems[i] != null) {
 				NBTTagCompound item = new NBTTagCompound();
 				trainingItems[i].writeToNBT(item);
-				items.appendTag(item);
+				item.setByte("slot", (byte) i);
 			}
 		}
 		
-		tag.setTag("Items", items);
+		tag.setTag("items", items);
 	}
 
 }
