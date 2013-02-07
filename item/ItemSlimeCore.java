@@ -21,7 +21,7 @@ public class ItemSlimeCore extends Item {
 		setMaxStackSize(1);
 		setItemName("slimeCore");
 		setCreativeTab(CreativeTabs.tabMisc);
-		setIconIndex(1);
+		setIconIndex(2);
 	}
 	
 	public String getTextureFile() {

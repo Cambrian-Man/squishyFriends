@@ -88,7 +88,7 @@ public class SquishyFriends {
 				'o', new ItemStack(Block.obsidian), 'g', new ItemStack(Block.glass), 's', new ItemStack(Item.slimeBall));
 		
 		GameRegistry.addRecipe(new ItemStack(whistle), 
-				"  i", "ii ", "ii ", 'i', new ItemStack(Item.ingotIron));
+				"i  ", " s ", "  i", 'i', new ItemStack(Item.ingotIron), 's', new ItemStack(Item.slimeBall));
 		
 		GameRegistry.addRecipe(new ItemStack(slimeCore),
 				"sss", "sds", "sss",

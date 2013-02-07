@@ -1,10 +1,12 @@
 package squishyFriends.gui;
 
-import squishyFriends.entity.TileEntitySlimePen;
-import squishyFriends.inventory.ContainerSlimePen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import squishyFriends.entity.TileEntitySlimePen;
+import squishyFriends.inventory.ContainerSlimePen;
+import squishyFriends.inventory.ContainerWhistle;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
@@ -26,6 +28,9 @@ public class GuiHandler implements IGuiHandler {
 				return null;
 			}
 		}
+		else if (ID == 1) {
+			return new ContainerWhistle(player.getCurrentEquippedItem(), player.inventory);
+		}
 		else {
 			return null;
 		}
@@ -44,6 +49,9 @@ public class GuiHandler implements IGuiHandler {
 			else {
 				return null;
 			}
+		}
+		else if (ID == 1) {
+			return new GuiWhistle(player.getCurrentEquippedItem(), player.inventory);
 		}
 		else {
 			return null;
