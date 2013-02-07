@@ -83,6 +83,7 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 				trainingItems[i].writeToNBT(item);
 				trainingItems[i] = null;
 				item.setByte("slot", (byte) i);
+				items.appendTag(item);
 			}
 		}
 		
@@ -98,6 +99,16 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 			trainingItems[slot] = ItemStack.loadItemStackFromNBT(itemTag);
 			setInventorySlotContents(slot, trainingItems[slot]);
 		}
+	}
+	
+	public boolean hasTrainingItem(ItemStack stack) {
+		for (int i = 0; i < trainingItems.length; i++) {
+			if (trainingItems[i] != null && trainingItems[i].getItem() == stack.getItem()) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -197,6 +208,7 @@ public class TileEntitySlimePen extends TileEntity implements IInventory {
 				NBTTagCompound item = new NBTTagCompound();
 				trainingItems[i].writeToNBT(item);
 				item.setByte("slot", (byte) i);
+				items.appendTag(item);
 			}
 		}
 		

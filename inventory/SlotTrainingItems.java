@@ -20,6 +20,9 @@ public class SlotTrainingItems extends Slot {
 		if (inventory.getCore() == null) {
 			return false;
 		}
+		else if (inventory.hasTrainingItem(stack)) {
+			return false;
+		}
 		else {
 			return true;
 		}
