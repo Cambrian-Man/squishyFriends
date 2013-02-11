@@ -29,7 +29,7 @@ public class GuiHandler implements IGuiHandler {
 			}
 		}
 		else if (ID == 1) {
-			return new ContainerWhistle(player.getCurrentEquippedItem(), player.inventory);
+			return new ContainerWhistle(player);
 		}
 		else {
 			return null;
@@ -51,7 +51,7 @@ public class GuiHandler implements IGuiHandler {
 			}
 		}
 		else if (ID == 1) {
-			return new GuiWhistle(player.getCurrentEquippedItem(), player.inventory);
+			return new GuiWhistle(player);
 		}
 		else {
 			return null;

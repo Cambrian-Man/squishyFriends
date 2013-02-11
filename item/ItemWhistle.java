@@ -1,17 +1,19 @@
 package squishyFriends.item;
 
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import squishyFriends.ClientProxy;
 import squishyFriends.SquishyFriends;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public class ItemWhistle extends Item {
 	public ItemWhistle(int id) {
-		super(SquishyFriends.baseID);
+		super(id);
 		
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabTools);
@@ -26,8 +28,12 @@ public class ItemWhistle extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		if (player.isSneaking()) {
-			player.openGui(SquishyFriends.instance, 1, world,
-					player.chunkCoordX, player.chunkCoordY, player.chunkCoordZ);
+			player.openGui(SquishyFriends.instance, 1, world, 0, 0, 0);
+		}
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+		
+		if (side == Side.SERVER) {
+			SquishyFriends.instance.registry.spawnPet(player, world, stack);
 		}
 		
 		return stack;

@@ -31,6 +31,26 @@ public class BlockSlimePen extends BlockContainer {
 		}
 	}
 	
+	public int getRenderBlockPass()
+    {
+        return 1;
+    }
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+	
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		TileEntitySlimePen penEntity = new TileEntitySlimePen();
@@ -51,16 +71,12 @@ public class BlockSlimePen extends BlockContainer {
 		return true;
 	}
 	
+	@Override
+	public boolean hasTileEntity(int metadata) {
+		return true;
+	}
+	
     @SideOnly(Side.CLIENT)
-
-    /**
-     * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
-     * coordinates.  Args: blockAccess, x, y, z, side
-     */
-    public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-    {
-        return super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, 1 - par5);
-    }
 	
 	public String getTextureFile()
 	{

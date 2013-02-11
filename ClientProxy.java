@@ -1,6 +1,9 @@
 package squishyFriends;
 
 import net.minecraftforge.client.MinecraftForgeClient;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import squishyFriends.entity.*;
+import squishyFriends.render.*;
 
 public class ClientProxy extends CommonProxy {
 	public static String BLOCKS = "/squishyFriends/blocks.png";
@@ -10,6 +13,7 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenders()
 	{
 		MinecraftForgeClient.preloadTexture(BLOCKS);
-		MinecraftForgeClient.preloadTexture(ICONS);
+		MinecraftForgeClient.preloadTexture(ICONS);	
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySlimePen.class, new RenderSlimePen());
 	}
 }
