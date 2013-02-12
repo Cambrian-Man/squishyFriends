@@ -41,6 +41,7 @@ public class ServerPacketHandler implements IPacketHandler {
 				}
 				else {
 					whistle.setTagCompound(new NBTTagCompound());
+					SquishyFriends.instance.registry.despawnPet((EntityPlayer) player);
 				}
 			}
 			catch (IOException ex) {

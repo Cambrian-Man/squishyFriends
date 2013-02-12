@@ -38,11 +38,14 @@ public class PetRegistry {
 		}
 	}
 	
-	public void despawnPet(World world, EntityPlayer player) {
+	@SideOnly(Side.SERVER)
+	public void despawnPet(EntityPlayer player) {
 		RegistryEntry entry = pets.get(player.getEntityName());
 		
-		entry.pet.setDead();
-		pets.remove(player.getEntityName());
+		if (entry != null) {
+			entry.pet.setDead();
+			pets.remove(player.getEntityName());
+		}
 	}
 	
 	@SideOnly(Side.SERVER)
@@ -87,9 +90,10 @@ public class PetRegistry {
 		return null;
 	}
 
-	public void registerPet(EntityPlayer player, EntityPetSlime pet, ItemStack whistle) {
+	public RegistryEntry registerPet(EntityPlayer player, EntityPetSlime pet, ItemStack whistle) {
 		RegistryEntry entry = new RegistryEntry(player, pet, whistle);
 		pets.put(player.getEntityName(), entry);
+		return entry;
 	}
 	
 	public void removePet(EntityPetSlime pet) {
@@ -137,7 +141,8 @@ public class PetRegistry {
 			else {
 				pet = new EntityPetSlime(world);
 				pet.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, 0);
-				registerPet(player, pet, whistleStack);
+				RegistryEntry entry = registerPet(player, pet, whistleStack);
+				pet.setCoreData(entry.data);
 				world.spawnEntityInWorld(pet);
 			}
 			

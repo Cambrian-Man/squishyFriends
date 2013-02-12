@@ -61,6 +61,10 @@ public class SlimeData {
 		return bytes;
 	}
 	
+	public NBTTagCompound getNBTTag() {
+		return tag;
+	}
+	
 	private void loadFromNBT(NBTTagCompound tag) {
 		name = tag.getString("name");
 		owner = tag.getString("owner");

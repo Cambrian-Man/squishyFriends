@@ -24,5 +24,4 @@ public class RegistryEntry {
 		
 		data = new SlimeData(whistleStack.getTagCompound().getCompoundTag("core"));
 	}
-
 }
