@@ -22,6 +22,6 @@ public class RegistryEntry {
 		this.petID = slime.entityId;
 		this.whistle = whistleStack;
 		
-		data = new SlimeData(whistleStack.getTagCompound().getCompoundTag("core"));
+		data = new SlimeData(ItemStack.loadItemStackFromNBT(whistleStack.getTagCompound().getCompoundTag("core")));
 	}
 }

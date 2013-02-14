@@ -30,12 +30,14 @@ public class ItemWhistle extends Item {
 		if (player.isSneaking()) {
 			player.openGui(SquishyFriends.instance, 1, world, 0, 0, 0);
 		}
-		Side side = FMLCommonHandler.instance().getEffectiveSide();
-		
-		if (side == Side.SERVER) {
-			SquishyFriends.instance.registry.spawnPet(player, world, stack);
+		else {
+			Side side = FMLCommonHandler.instance().getEffectiveSide();
+			
+			
+			if (side == Side.SERVER) {
+				SquishyFriends.instance.registry.spawnPet(player, world, stack);
+			}
 		}
-		
 		return stack;
 	}
 }

@@ -38,7 +38,6 @@ public class PetRegistry {
 		}
 	}
 	
-	@SideOnly(Side.SERVER)
 	public void despawnPet(EntityPlayer player) {
 		RegistryEntry entry = pets.get(player.getEntityName());
 		
@@ -48,7 +47,6 @@ public class PetRegistry {
 		}
 	}
 	
-	@SideOnly(Side.SERVER)
 	public boolean petHasOwner(World world, int petID) {
 		EntityPetSlime pet = getPetByID(petID);
 		
@@ -101,10 +99,12 @@ public class PetRegistry {
 		
 		Iterator itr = owners.iterator();
 		while (itr.hasNext()) {
-			RegistryEntry entry = (RegistryEntry) itr.next();
+			String owner = (String) itr.next();
+			RegistryEntry entry = (RegistryEntry) pets.get(owner);
 			
 			if (entry.pet == pet) {
-				pets.remove(entry);
+				pets.remove(owner);
+				pet.setDead();
 			}
 		}
 	}
@@ -130,7 +130,6 @@ public class PetRegistry {
 		return pets.get(player.getEntityName()).pet;
 	}
 	
-	@SideOnly(Side.SERVER)
 	public boolean spawnPet(EntityPlayer player, World world, ItemStack whistleStack) {
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
 			EntityPetSlime pet;

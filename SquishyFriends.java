@@ -45,7 +45,7 @@ public class SquishyFriends {
 	
 	private GuiHandler guiHandler = new GuiHandler();
 	
-	public static PetRegistry registry;
+	public PetRegistry registry = new PetRegistry();
 	
 	@Init
 	public void load(FMLInitializationEvent event)
@@ -87,8 +87,6 @@ public class SquishyFriends {
 		registerItems();
 		
 		proxy.registerRenders();
-		
-		registry = new PetRegistry();
 	}
 	
 	private void registerItems()
