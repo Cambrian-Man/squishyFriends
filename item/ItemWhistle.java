@@ -33,9 +33,10 @@ public class ItemWhistle extends Item {
 		else {
 			Side side = FMLCommonHandler.instance().getEffectiveSide();
 			
-			
 			if (side == Side.SERVER) {
-				SquishyFriends.instance.registry.spawnPet(player, world, stack);
+				if (stack.hasTagCompound() && stack.getTagCompound().getCompoundTag("core") != null) {
+					SquishyFriends.instance.registry.spawnPet(player, world, stack);
+				}
 			}
 		}
 		return stack;

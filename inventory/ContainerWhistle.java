@@ -61,7 +61,7 @@ public class ContainerWhistle extends Container {
     	
     	if (side == Side.CLIENT) {    		
     		Packet250CustomPayload packet = new Packet250CustomPayload();
-    		packet.channel = "SF.setWhistle";
+    		packet.channel = "SF.slotWhistle";
     		
     		ByteArrayOutputStream bos = new ByteArrayOutputStream();
     		DataOutputStream outputStream = new DataOutputStream(bos);

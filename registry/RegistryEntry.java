@@ -12,7 +12,7 @@ public class RegistryEntry {
 	public EntityPetSlime pet;
 	public int petID;
 	public String playerName;
-	public SlimeData data;
+	public ItemStack core;
 	public ItemStack whistle;
 	
 	public RegistryEntry(EntityPlayer player, EntityPetSlime slime, ItemStack whistleStack) {
@@ -22,6 +22,6 @@ public class RegistryEntry {
 		this.petID = slime.entityId;
 		this.whistle = whistleStack;
 		
-		data = new SlimeData(ItemStack.loadItemStackFromNBT(whistleStack.getTagCompound().getCompoundTag("core")));
+		core = ItemStack.loadItemStackFromNBT(whistleStack.getTagCompound().getCompoundTag("core"));
 	}
 }

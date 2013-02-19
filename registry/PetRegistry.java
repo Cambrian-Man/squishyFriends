@@ -102,7 +102,7 @@ public class PetRegistry {
 			String owner = (String) itr.next();
 			RegistryEntry entry = (RegistryEntry) pets.get(owner);
 			
-			if (entry.pet == pet) {
+			if (entry.petID == pet.entityId) {
 				pets.remove(owner);
 				pet.setDead();
 			}
@@ -141,7 +141,7 @@ public class PetRegistry {
 				pet = new EntityPetSlime(world);
 				pet.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, 0);
 				RegistryEntry entry = registerPet(player, pet, whistleStack);
-				pet.setCoreData(entry.data);
+				pet.setCore(entry.core);
 				world.spawnEntityInWorld(pet);
 			}
 			

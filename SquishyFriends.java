@@ -3,6 +3,7 @@ package squishyFriends;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
 import squishyFriends.block.BlockSlimePen;
 import squishyFriends.entity.EntityPetSlime;
 import squishyFriends.entity.TileEntitySlimePen;
@@ -10,24 +11,24 @@ import squishyFriends.gui.GuiHandler;
 import squishyFriends.item.ItemSlimeCore;
 import squishyFriends.item.ItemWhistle;
 import squishyFriends.registry.PetRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = "Cambrian_Man.SquishyFriends", name = "Squishy Friends", version = "0.1")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false,
-		clientPacketHandlerSpec = @SidedPacketHandler(channels = {"SquishyFriends", "SF.setWhistle"}, packetHandler = ClientPacketHandler.class),
-		serverPacketHandlerSpec = @SidedPacketHandler(channels = {"SquishyFriends", "SF.setWhistle"}, packetHandler = ServerPacketHandler.class))
+		clientPacketHandlerSpec = @SidedPacketHandler(channels = {"SF.slotWhistle"}, packetHandler = ClientPacketHandler.class),
+		serverPacketHandlerSpec = @SidedPacketHandler(channels = {"SF.slotWhistle"}, packetHandler = ServerPacketHandler.class))
 
 public class SquishyFriends {
 	public static TileEntitySlimePen slimePen;
@@ -38,7 +39,8 @@ public class SquishyFriends {
 	@SidedProxy(clientSide = "squishyFriends.ClientProxy", serverSide = "squishyFriends.CommonProxy")
 	public static ClientProxy proxy = new ClientProxy();
 	
-	public static int baseID = 250;
+	public static int baseID;
+	public static int dataID = 500;
 
 	@Instance
 	public static SquishyFriends instance;
@@ -46,6 +48,17 @@ public class SquishyFriends {
 	private GuiHandler guiHandler = new GuiHandler();
 	
 	public PetRegistry registry = new PetRegistry();
+	
+	@PreInit
+	public void preInit(FMLPreInitializationEvent event) {
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		
+		config.load();
+		
+		baseID = config.getBlock("BaseID", 3000).getInt();		
+		
+		config.save();
+	}
 	
 	@Init
 	public void load(FMLInitializationEvent event)
@@ -101,6 +114,8 @@ public class SquishyFriends {
 		GameRegistry.addRecipe(new ItemStack(slimeCore),
 				"sss", "sds", "sss",
 				's', new ItemStack(Item.slimeBall), 'd', new ItemStack(Item.diamond));
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(slimeCore), new ItemStack(slimeCore));
 
 	}
 }
