@@ -42,6 +42,12 @@ public class EntityPetSlime extends EntitySlime {
 			this.data = new SlimeData(this.dataWatcher.getWatchableObjectItemStack(coreID));
 		}
 		
+		for (int i = 0; i < data.skills.length; i++) {
+			if (data.skills[i] != null) {
+				tasks.addTask(0, data.skills[i].getTask(i));
+			}
+		}
+		
 		//this.owner = this.worldObj.getPlayerEntityByName(data.getOwner());
 		setOwner(data.getOwner());
 		

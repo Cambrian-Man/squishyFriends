@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import squishyFriends.SlimeData;
 import squishyFriends.entity.EntityPetSlime;
 
-public class RegistryEntry {
+public class PetRegistryEntry {
 	public EntityPlayer player;
 	public EntityPetSlime pet;
 	public int petID;
@@ -15,7 +15,7 @@ public class RegistryEntry {
 	public ItemStack core;
 	public ItemStack whistle;
 	
-	public RegistryEntry(EntityPlayer player, EntityPetSlime slime, ItemStack whistleStack) {
+	public PetRegistryEntry(EntityPlayer player, EntityPetSlime slime, ItemStack whistleStack) {
 		this.player = player;
 		this.playerName = player.getEntityName();
 		this.pet = slime;

@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class PetRegistry {
-	private HashMap<String, RegistryEntry> pets;
+	private HashMap<String, PetRegistryEntry> pets;
 	private PetSlimeSelector petSlimeSelector = new PetSlimeSelector();
 	
 
@@ -29,7 +29,7 @@ public class PetRegistry {
 		Iterator itr = pets.values().iterator();
 		
 		while (itr.hasNext()) {
-			RegistryEntry entry = (RegistryEntry) itr.next();
+			PetRegistryEntry entry = (PetRegistryEntry) itr.next();
 			
 			if (!petHasOwner(world, entry.petID)) {
 				entry.pet.setDead();
@@ -39,7 +39,7 @@ public class PetRegistry {
 	}
 	
 	public void despawnPet(EntityPlayer player) {
-		RegistryEntry entry = pets.get(player.getEntityName());
+		PetRegistryEntry entry = pets.get(player.getEntityName());
 		
 		if (entry != null) {
 			entry.pet.setDead();
@@ -78,7 +78,7 @@ public class PetRegistry {
 		Iterator itr = pets.values().iterator();
 
 		while (itr.hasNext()) {
-			RegistryEntry entry = (RegistryEntry) itr.next();
+			PetRegistryEntry entry = (PetRegistryEntry) itr.next();
 			
 			if (entry.petID == petID) {
 				return entry.pet;
@@ -88,8 +88,8 @@ public class PetRegistry {
 		return null;
 	}
 
-	public RegistryEntry registerPet(EntityPlayer player, EntityPetSlime pet, ItemStack whistle) {
-		RegistryEntry entry = new RegistryEntry(player, pet, whistle);
+	public PetRegistryEntry registerPet(EntityPlayer player, EntityPetSlime pet, ItemStack whistle) {
+		PetRegistryEntry entry = new PetRegistryEntry(player, pet, whistle);
 		pets.put(player.getEntityName(), entry);
 		return entry;
 	}
@@ -100,7 +100,7 @@ public class PetRegistry {
 		Iterator itr = owners.iterator();
 		while (itr.hasNext()) {
 			String owner = (String) itr.next();
-			RegistryEntry entry = (RegistryEntry) pets.get(owner);
+			PetRegistryEntry entry = (PetRegistryEntry) pets.get(owner);
 			
 			if (entry.petID == pet.entityId) {
 				pets.remove(owner);
@@ -140,7 +140,7 @@ public class PetRegistry {
 			else {
 				pet = new EntityPetSlime(world);
 				pet.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, 0);
-				RegistryEntry entry = registerPet(player, pet, whistleStack);
+				PetRegistryEntry entry = registerPet(player, pet, whistleStack);
 				pet.setCore(entry.core);
 				world.spawnEntityInWorld(pet);
 			}

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import squishyFriends.behavior.MobilityHandler;
 import squishyFriends.block.BlockSlimePen;
 import squishyFriends.entity.EntityPetSlime;
 import squishyFriends.entity.TileEntitySlimePen;
@@ -11,6 +12,7 @@ import squishyFriends.gui.GuiHandler;
 import squishyFriends.item.ItemSlimeCore;
 import squishyFriends.item.ItemWhistle;
 import squishyFriends.registry.PetRegistry;
+import squishyFriends.registry.SkillRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -48,6 +50,8 @@ public class SquishyFriends {
 	private GuiHandler guiHandler = new GuiHandler();
 	
 	public PetRegistry registry = new PetRegistry();
+	
+	public SkillRegistry skills = new SkillRegistry();
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -98,12 +102,12 @@ public class SquishyFriends {
 		NetworkRegistry.instance().registerGuiHandler(this, guiHandler);
 		
 		registerItems();
+		registerSkills();
 		
 		proxy.registerRenders();
 	}
 	
-	private void registerItems()
-	{
+	private void registerItems() {
 		GameRegistry.addRecipe(new ItemStack(slimePenBlock), 
 				"ooo", "gsg", "ooo", 
 				'o', new ItemStack(Block.obsidian), 'g', new ItemStack(Block.glass), 's', new ItemStack(Item.slimeBall));
@@ -117,5 +121,9 @@ public class SquishyFriends {
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(slimeCore), new ItemStack(slimeCore));
 
+	}
+	
+	private void registerSkills() {
+		skills.add(MobilityHandler.class, "Mobility");
 	}
 }

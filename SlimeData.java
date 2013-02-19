@@ -1,12 +1,12 @@
 package squishyFriends;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import squishyFriends.behavior.ISlimeBehavior;
 import squishyFriends.behavior.Skill;
-import cpw.mods.fml.common.FMLLog;
+import squishyFriends.registry.SkillRegistry;
 
 /**
  * Handler Class for interacting with Slime Data and stats.
@@ -17,20 +17,23 @@ public class SlimeData {
 	private ItemStack stack;
 	private NBTTagCompound tag;
 	
+	private SkillRegistry registry;
+	
 	private String name;
 	private String owner;
 	
-	private Skill[] skills = new Skill[5];
+	public ISlimeBehavior[] skills = new ISlimeBehavior[5];
 	private byte[] progress = new byte[5];
 
 	public SlimeData(ItemStack itemStack) {
+		registry = SquishyFriends.instance.skills;
 		stack = itemStack;
 		
 		if (stack.getTagCompound() == null) {
 			tag = new NBTTagCompound();
 			tag.setName("petStats");
 			
-			skills = new Skill[5];
+			skills = new ISlimeBehavior[5];
 			progress = new byte[5];
 			
 			stack.setTagCompound(tag);
@@ -55,7 +58,7 @@ public class SlimeData {
 		byte[] bytes = new byte[5];
 		
 		for (int i = 0; i < skills.length; i++) {
-			bytes[i] = skills[i].getId();
+			bytes[i] = registry.getSkillByte(skills[i]);
 		}
 		
 		return bytes;
@@ -73,7 +76,13 @@ public class SlimeData {
 		
 		
 		for (int i = 0; i < skillBytes.length; i++) {
-			skills[i] = Skill.values()[skillBytes[i]];
+			try {
+				skills[i] = registry.getSkill(skillBytes[i]).newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -81,7 +90,7 @@ public class SlimeData {
 	 * Clears skills and associated progress.
 	 */
 	private void clearSkills() {
-		Arrays.fill(skills, Skill.NONE);
+		Arrays.fill(skills, null);
 		tag.setByteArray("skills", getSkillBytes());
 		
 		Arrays.fill(progress, (byte) 0);
@@ -113,9 +122,18 @@ public class SlimeData {
 		return skills[level].toString();
 	}
 	
-	public boolean hasSkill(Skill skill) {
+	public boolean hasSkill(String name) {
 		for (int i = 0; i < skills.length; i++) {
-			if (skills[i] == skill) {
+			if (skills[i].getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasSkill(byte index) {
+		for (int i = 0; i < skills.length; i++) {
+			if (registry.getSkillByte(skills[i]) == index) {
 				return true;
 			}
 		}
@@ -128,20 +146,27 @@ public class SlimeData {
 	 * @param skill
 	 * @param level
 	 */
-	public void setSkill(Skill skill, int level) {
+	public void setSkill(byte skill, int level) {
 		if (hasSkill(skill)) {
 			removeSkill(skill);
 		}
 		
-		skills[level] = skill;
+		try {
+			skills[level] = registry.getSkill(skill).newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
 		progress[level] = 0;
 		tag.setByteArray("skills", getSkillBytes());
 	}
 	
-	public void removeSkill(Skill skill) {
+	public void removeSkill(byte skill) {
 		if (hasSkill(skill)) {
 			for (int i = 0; i < skills.length; i++) {
-				skills[i] = Skill.NONE;
+				skills[i] = null;
 			}
 		}
 	}
